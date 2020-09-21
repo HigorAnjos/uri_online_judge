@@ -28,7 +28,7 @@ bool tem_hegiteg(char **matriz, int N, int M)
 }
 void lanca_virus (char **matriz, int N, int M, int i, int j, int dias, int cont_dias = 0)
 {
-	cout<<"Dias"<<cont_dias<<"\n";
+	
 	if(cont_dias == dias)
 	{
 		return;
