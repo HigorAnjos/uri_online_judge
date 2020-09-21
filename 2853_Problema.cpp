@@ -1,5 +1,5 @@
 #include <iostream>
-// calculo A ler pagina 118 exemplos 4, 2, 3
+
 using namespace std;
 bool posicao_valida(int Linha, int Coluna, int i, int j)
 {
@@ -150,7 +150,7 @@ int aumentado_area_infectada (char **matriz, int N, int M)
 		return -1;
 	}
 	
-	// desalocar o espaco dinamico
+	
 	return dias-2;
 	
 }
