@@ -26,65 +26,43 @@ bool tem_hegiteg(char **matriz, int N, int M)
 	}
 	return false;
 }
+void indo_na_direcao (char **matriz, int N, int M, int i, int j, int dias, int cont_dias = 0, int chave_i=0, int chave_j=0)
+{
+	
+	if(dias == cont_dias)
+	{
+		return;
+		
+	}
+	if(posicao_valida(N, M, (i+chave_i), (j+chave_j)))
+	{
+		if(matriz[i+chave_i][j+chave_j] == '#')
+		{
+			 matriz[i+chave_i][j+chave_j] = '+';
+			 return;
+		}
+		if(matriz[i+chave_i][j+chave_j] == '+')
+		{
+			indo_na_direcao (matriz,N, M, (i+chave_i), (j+chave_j), dias, cont_dias+1, chave_i, chave_j);
+		}
+	}
+}
 void lanca_virus (char **matriz, int N, int M, int i, int j, int dias, int cont_dias = 0)
 {
 	
-	if(cont_dias == dias)
-	{
-		return;
-	}
-	if (posicao_valida(N,M, i-1, j))
-	{
-		if(matriz[i-1][j] == '#')
-		{
-			matriz[i-1][j] = '+';
-			//lanca_virus(matriz, N, M, i-1, j, dias, cont_dias+1);
-		}
-		if(matriz[i-1][j] == '+')
-		{
-			lanca_virus(matriz, N, M, i-1, j, dias, cont_dias+1);
-		}
-		
-	}
-	if (posicao_valida(N,M, i, j+1))
-	{
-		if(matriz[i][j+1] == '#')
-		{
-			matriz[i][j+1] = '+';
-			//lanca_virus(matriz, N, M, i, j+1, dias, cont_dias+1);
-		}
-		if(matriz[i][j+1] == '+')
-		{
-			lanca_virus(matriz, N, M, i, j+1, dias, cont_dias+1);
-		}
-		
-	}
-	if (posicao_valida(N,M, i+1, j))
-	{
-		if(matriz[i+1][j] == '#')
-		{
-			matriz[i+1][j] = '+';
-			//lanca_virus(matriz, N, M, i+1, j, dias, cont_dias+1);
-		}
-		if(matriz[i+1][j] == '+')
-		{
-			lanca_virus(matriz, N, M, i+1, j, dias, cont_dias+1);
-		}
-		
-	}
-	if (posicao_valida(N,M, i, j-1))
-	{
-		if(matriz[i][j-1] == '#')
-		{
-			matriz[i][j-1] = '+';
-			//lanca_virus(matriz, N, M, i, j-1, dias, cont_dias+1);
-		}
-		if(matriz[i][j-1] == '+')
-		{
-			lanca_virus(matriz, N, M, i, j-1, dias, cont_dias+1);
-		}
-		
-	}
+	//acima 
+	indo_na_direcao (matriz, N, M, i, j, dias, cont_dias, -1, 0);
+	
+	//direita
+	indo_na_direcao (matriz ,N, M, i, j, dias, cont_dias, 0, 1);
+	
+	//abaixo
+	indo_na_direcao (matriz ,N, M, i, j, dias, cont_dias, 1, 0);
+	
+	//esquerda
+	indo_na_direcao (matriz ,N, M, i, j, dias, cont_dias, 0, -1);
+	
+	
 }
 bool Matriz_sao_diferentes (char **matriz_a, char **matriz_b, int N, int M)
 {
@@ -136,9 +114,26 @@ int aumentado_area_infectada (char **matriz, int N, int M)
 	
 	for(dias=1; Matriz_sao_diferentes(matriz, matriz_anterior, N, M); dias++)
 	{
-		cout<<"Dia "<<dias;
 		
-		cout<<"Matriz \n";
+		Matriz_copy(matriz_anterior, matriz, N, M);
+		
+		for (i = 0; i < N; i++)
+		{
+			for (j = 0; j < M; j++)
+			{
+				if (matriz[i][j] == '@')
+				{
+					//cout<<"D: " << dias;
+					lanca_virus(matriz, N, M, i, j, dias);
+				}
+			}
+			
+		}
+		
+		
+		
+	}
+	cout<<"Matriz Final\n";
 		
 		for(i=0; i<N; i++)
 		{
@@ -148,24 +143,7 @@ int aumentado_area_infectada (char **matriz, int N, int M)
 			}
 			cout<<"\n";
 		}
-		
-		
-		Matriz_copy(matriz_anterior, matriz, N, M);
-		for (i = 0; i < N; i++)
-		{
-			for (j = 0; j < M; j++)
-			{
-				if (matriz[i][j] == '@')
-				{
-					cout<<"D: " << dias;
-					lanca_virus(matriz, N, M, i, j, dias);
-				}
-			}
 			
-		}
-		
-		
-	}
 		
 	if(tem_hegiteg(matriz, N, M))
 	{
@@ -173,7 +151,7 @@ int aumentado_area_infectada (char **matriz, int N, int M)
 	}
 	
 	// desalocar o espaco dinamico
-	return dias-1;
+	return dias-2;
 	
 }
 
@@ -184,30 +162,26 @@ int main()
 	
 	cin>>N>>M;
 	
+	
+if(N>0 && M>0)
+{
+		char * Matx[N] ; 
 
-	
-	char * Matx[N] ; 
-	
-	for (i = 0; i < N; i++)
-	{
-		Matx[i] =  new char [M];
-	}
-	
-	
-	for (i = 0; i < N; i++)
-	{
-		for (j = 0; j < M; j++)
+		for (i = 0; i < N; i++)
 		{
-			cin>>Matx[i][j];
-			
+			Matx[i] =  new char [M];
 		}
-	}
-	
-	
 
+		for (i = 0; i < N; i++)
+		{
+			for (j = 0; j < M; j++)
+			{
+				cin>>Matx[i][j];
+				
+			}
+		}
+		cout<< aumentado_area_infectada(Matx, N, M) <<"\n";
 	
-	
-	cout<< aumentado_area_infectada(Matx, N, M);
-	
-	// desalocar o espaco dinamico
+}	
+
 }
