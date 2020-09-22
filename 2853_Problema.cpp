@@ -1,5 +1,7 @@
 #include <iostream>
 
+// Algoritmo lento 
+
 using namespace std;
 bool posicao_valida(int Linha, int Coluna, int i, int j)
 {
@@ -31,6 +33,7 @@ void indo_na_direcao (char **matriz, int N, int M, int i, int j, int dias, int c
 	
 	if(dias == cont_dias)
 	{
+		//Limita o alcance pra essa direcao na matriz
 		return;
 		
 	}
@@ -92,7 +95,7 @@ void Matriz_copy(char **destino, char **matriz, int L, int C)
 		}
 	}
 }
-int aumentado_area_infectada (char **matriz, int N, int M)
+int area_infectada (char **matriz, int N, int M)
 {	
 	int i, j, dias;
 	
@@ -180,7 +183,7 @@ if(N>0 && M>0)
 				
 			}
 		}
-		cout<< aumentado_area_infectada(Matx, N, M) <<"\n";
+		cout<< area_infectada(Matx, N, M) <<"\n";
 	
 }	
 
